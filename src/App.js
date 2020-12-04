@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { 
+  BrowserRouter as Router, 
+  Route, 
+  Switch,
+  Redirect 
+} from "react-router-dom";
+import history from "./history";
+
+import './styles/styles.sass';
+
+//Routing
+import {
+  ERROR_URL,
+  DETAIL_ITEM_URL
+} from './configs/routing';
+
+//Pages
+import MainPage from './pages';
+import ResultsPage from './pages/ResultsPage';
+import DetailsPage from './pages/DetailsPage';
+import NotFoundedPage from "./pages/404";
 
 function App() {
+  var detailItemUrl = DETAIL_ITEM_URL+'/:id';
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router history={history}>
+      <Switch>
+      <Route exact path="/" component={MainPage} />
+      <Route exact path={DETAIL_ITEM_URL} component={ResultsPage} />
+      <Route exact path={detailItemUrl} component={DetailsPage} />
+      <Route exact path={ERROR_URL} component={NotFoundedPage} />
+      <Redirect to={ERROR_URL} />
+      </Switch>
+    </Router>
   );
 }
 
